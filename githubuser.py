@@ -1,21 +1,20 @@
 import sys
+import pprint
 
-from utils.github import repos
+from utils.github import get_forks, get_self_commits
 
 
-def analyze_forks(forks):
-    # send request to get this user's commits in each fork
+def analyze_forks(user):
+    forks = get_forks(user)
+    selfcommits = {}
     for fork in forks:
-        print fork['name']
-
-
-def get_forks(user):
-    allrepos = repos(user)
-    forks = [r for r in allrepos if r['fork'] == True]
-    return forks
+        repo = fork['name']
+        selfcommits[repo] = len(get_self_commits(repo, user))
+    return selfcommits
 
 
 if __name__ == '__main__':
+    pp = pprint.PrettyPrinter(indent=4)
     script, user = sys.argv
-    analyze_forks(user)
-
+    pp.pprint(analyze_forks(user))
+    
