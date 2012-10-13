@@ -1,4 +1,5 @@
 import urllib2
+from urllib import urlencode
 import pprint
 from functools import wraps
 import json
@@ -21,8 +22,8 @@ def octoget(func):
     @wraps(func)
     def dec(*args, **kwargs):
         url = octourl(func(*args, **kwargs))
-        response = request(url).read()
-        data = json.loads(response)
+        response = request(url)
+        data = json.loads(response.read())
         return data
     return dec
 
@@ -31,6 +32,25 @@ def octoget(func):
 @octoget
 def repos(user):
     return 'users/%s/repos' % user
+
+
+@cache_dict('commits')
+@octoget
+def commits(repo, user, params=None):
+    """Get user's commits in the repo"""
+    params = {} if params is None else params
+    return 'repos/%s/%s/commits?%s' % (user, repo, urlencode(params))
+    
+
+
+def get_forks(user):
+    allrepos = repos(user)
+    forks = [r for r in allrepos if r['fork'] == True]
+    return forks
+
+
+def get_self_commits(repo, user):
+    return commits(repo, user, {'author': user})
 
 
 if __name__ == '__main__':
