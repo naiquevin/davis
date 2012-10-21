@@ -1,0 +1,13 @@
+header {
+    height: 100px;
+}
+
+.chart rect {
+    stroke: white;
+    fill: #f17f49;
+}
+
+.chart text {
+    font-size: 13px;
+    fill: #fff;
+}
