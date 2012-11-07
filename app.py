@@ -18,13 +18,13 @@ def github_forks():
     username = request.args.get('username')
     if username not in [None, '']:
         fork_commits = analyze_forks(username)
-        return render_template('github.html',
+        return render_template('github_user_forks.html',
                                data=True,
                                username=username,
                                fork_commits=fork_commits,
                                json_fork_commits=json.dumps(fork_commits))
     else:
-        return render_template('github.html', data=False)
+        return render_template('github_user_forks.html', data=False)
 
 
 if __name__ == '__main__':
