@@ -79,7 +79,6 @@
     var Davis = {};
 
     Davis.github = {
-
         forks: function (selector, data) {
             return barChart(selector, data, {
                 valueLabel: function (d) {
@@ -100,5 +99,3 @@
     window.Davis = Davis;
 
 }) (window, document, d3, _);
-
-
