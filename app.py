@@ -10,7 +10,7 @@ app.config.from_object(__name__)
 
 @app.route('/')
 def index():
-    return 'Davis: Experiments in Data Analysis & VISualizations'
+    return 'Davis: Amatuer Experiments in Data Analysis & VISualizations'
 
 
 @app.route('/github/forks')
