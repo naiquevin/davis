@@ -1,5 +1,3 @@
-import json
-
 from flask import Flask, render_template, request, Response
 
 from utils.caching import get_cached_data
