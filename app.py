@@ -13,7 +13,24 @@ app.config.from_object(__name__)
 
 @app.route('/')
 def index():
-    return 'Davis: Amatuer Experiments in Data Analysis & VISualizations'
+    """Index
+    """
+    def title(r):
+        return r.endpoint.replace('_', ' ').title()
+
+    def description(r):
+        doc = globals().get(r.endpoint).__doc__
+        return '' if doc is None else doc.rstrip()
+
+    ignored = ['static', 'cached_json']
+
+    views = [{'url': r.rule,
+              'title': title(r),
+              'description': description(r)}
+             for r
+             in app.url_map.iter_rules()
+             if r.endpoint not in ignored]
+    return render_template('index.html', views=views)
 
 
 @app.route('/cache/<filename>')
@@ -25,7 +42,7 @@ def cached_json(filename):
 
 @app.route('/github/user/forks')
 def github_forks():
-    """Commits of users in repos forked by them
+    """Commits of users in github repos forked by them
     """
     username = request.args.get('username')
     template = 'github_user_forks.html'
@@ -41,6 +58,8 @@ def github_forks():
 
 @app.route('/github/activity/languages')
 def github_activity_languages():
+    """Github repository activities per language
+    """
     archives = available_archives()
     archive = request.args.get('archive')
     template = 'github_activity_languages.html'

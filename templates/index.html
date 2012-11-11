@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <dl>
+    {% for view in views %}
+      <dt><a href="{{ view.url }}">{{ view.title }}</a></dt>
+      <dd>{{ view.description }}</dd>
+    {% endfor %}
+  </dl>
+{% endblock %}
