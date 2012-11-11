@@ -2,7 +2,7 @@
 
 {% block content %}
   <div id="github-languages">
-  <form method="GET" action"."> 
+  <form method="GET" action".">
     <legend>Github activity language graph</legend> 
     <select name="archive">
       <option value="">Select an archive</option>
@@ -15,21 +15,15 @@
   <br/>
   {% if data %}
     <h5>Primary languages for which there was an activity on {{ archive }}</h5>
-    <dl> 
-      <dt>Total languages</dt> 
-      <dd>{{ total_languages }}</dd> 
-    </dl> 
-    <div class="graph"></div>
+    <div class="graph" data-jsonsrc={{ jsonfile }}></div>
   {% endif %}
 </div>
 {% endblock content %}
 
-{% block extrajs %}
-<script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
-<script type="text/javascript">
-  {% if data %}
-    Davis.github.languages("#github-languages .graph", {{ json_languages|safe }});
-  {% endif %}
-</script>
-{% endblock %}
+{% if data %}
+  {% block extrajs %}
+    <script type="text/javascript" src="{{ url_for('static', filename='d3utils/barChart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='activity_languages.js') }}"></script>
+  {% endblock %}
+{% endif %}
 

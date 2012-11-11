@@ -4,7 +4,7 @@ import pprint
 from functools import wraps
 import json
 
-from utils.caching import cache_dict
+from utils.caching import cache_json_resp as cache
 
 
 API_URL = 'https://api.github.com'
@@ -28,19 +28,17 @@ def octoget(func):
     return dec
 
 
-@cache_dict('repos')
+@cache('repos')
 @octoget
 def repos(user):
     return 'users/%s/repos' % user
 
 
-@cache_dict('commits')
 @octoget
 def commits(repo, user, params=None):
     """Get user's commits in the repo"""
     params = {} if params is None else params
     return 'repos/%s/%s/commits?%s' % (user, repo, urlencode(params))
-    
 
 
 def get_forks(user):

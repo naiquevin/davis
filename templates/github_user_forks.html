@@ -2,32 +2,19 @@
 
 {% block content %}
 <div id="github-forks">
-  <form method="GET" action".">
-    <legend>Github forks</legend>
-    <label>Enter github username</label>
-    <div class="input-append">
-      <input type="text" name="username"/>
-      <button class="btn" type="submit">Go!</button>
-    </div>
-  </form>
+  {% include "_gh_user_form.html" %}
   <br/>
   {% if data %}
     <h5>Data related to repos forked by {{ username }}</h5>
-    <dl>
-      <dt>Total forks</dt>
-      <dd>{{ fork_commits|length }}</dd>
-    </dl>
-    <div class="graph"></div>
+    <div class="graph" data-jsonsrc="{{ jsonfile }}"></div>
   {% endif %}
 </div>
 {% endblock %}
 
-{% block extrajs %}
-<script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
-<script type="text/javascript">
-  {% if data %}
-    Davis.github.forks("#github-forks .graph", {{ json_fork_commits|safe }});
-  {% endif %}
-</script>
-{% endblock %}
+{% if data %}
+  {% block extrajs %}
+    <script type="text/javascript" src="{{ url_for('static', filename='d3utils/barChart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='user_forks.js') }}"></script>
+  {% endblock %}
+{% endif %}
 

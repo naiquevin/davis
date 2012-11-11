@@ -1,6 +1,7 @@
-(function (window, document, d3, _, undefined) {
+(function (d3, d3utils, _, undefined) {
+    "use strict";
 
-    var barChart = function (selector, data, options) {
+    d3utils.barChart = function (selector, data, options) {
         var _default = {
             totalWidth: 720,
             barHeight: 30,
@@ -76,26 +77,4 @@
             .text(options.keyLabel);
     };
 
-    var Davis = {};
-
-    Davis.github = {
-        forks: function (selector, data) {
-            return barChart(selector, data, {
-                valueLabel: function (d) {
-                    return d === 30 ? '>30' : String(d);
-                }
-            });
-        },
-        languages: function (selector, data) {
-            return barChart(selector, data, {
-                totalWidth: 1000,
-                keyLabel: function (k) {
-                    return data[k] < 30 ? k + ' (' + data[k] + ')' : k;
-                }
-            });
-        }
-    };
-
-    window.Davis = Davis;
-
-}) (window, document, d3, _);
+}) (d3, d3utils, _);

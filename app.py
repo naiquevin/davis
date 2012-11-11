@@ -1,7 +1,9 @@
 import json
 
-from flask import Flask, render_template, request
-from githubuser import analyze_forks
+from flask import Flask, render_template, request, Response
+
+from utils.caching import get_cached_data
+from githubuser import user_forks
 from githubarchive import languages, available_archives
 
 
@@ -16,35 +18,44 @@ def index():
     return 'Davis: Amatuer Experiments in Data Analysis & VISualizations'
 
 
-@app.route('/github/forks')
+@app.route('/cache/<filename>')
+def cached_json(filename):
+    """For serving the json file in ``cache`` directory
+    """
+    return Response(get_cached_data(filename), mimetype='application/json')
+
+
+@app.route('/github/user/forks')
 def github_forks():
+    """Commits of users in repos forked by them
+    """
     username = request.args.get('username')
+    template = 'github_user_forks.html'
     if username not in [None, '']:
-        fork_commits = analyze_forks(username)
-        return render_template('github_user_forks.html',
+        jsonfile = user_forks(username)
+        return render_template(template,
                                data=True,
                                username=username,
-                               fork_commits=fork_commits,
-                               json_fork_commits=json.dumps(fork_commits))
+                               jsonfile=jsonfile)
     else:
-        return render_template('github_user_forks.html', data=False)
+        return render_template(template, data=False)
 
 
 @app.route('/github/activity/languages')
 def github_activity_languages():
     archives = available_archives()
     archive = request.args.get('archive')
+    template = 'github_activity_languages.html'
     if archive not in [None, '']:
         archive_dataset = 'githubarchives/%s' % archive
-        langs = languages(archive_dataset)
-        return render_template('github_activity_languages.html',
+        jsonfile = languages(archive_dataset)
+        return render_template(template,
                                data=True,
-                               json_languages=json.dumps(langs),
-                               total_languages=len(langs),
+                               archives=archives,
                                archive=archive,
-                               archives=archives)
+                               jsonfile=jsonfile)
     else:
-        return render_template('github_activity_languages.html',
+        return render_template(template,
                                archives=archives,
                                data=False)
 
