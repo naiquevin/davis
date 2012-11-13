@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, Response
 
 from utils.caching import get_cached_data
 from githubuser import user_forks, primary_languages
-from githubarchive import languages, available_archives
+from githubarchive import languages, available_archives, activity_types
 
 
 DEBUG = True
@@ -97,5 +97,17 @@ def github_activity_languages():
                                data=False)
 
 
+@app.route('/github/activity/types')
+def github_activity_types():
+    """Types of activity on Github in a period
+    """
+    jsonfile = activity_types('githubarchives/activities.csv')
+    return render_template('github_activity_types.html',
+                           data=True,
+                           jsonfile=jsonfile)
+
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
+

@@ -6,6 +6,8 @@ import csv
 from contextlib import contextmanager
 from collections import Counter
 
+import pandas as pd
+
 from utils.caching import cache_json_data as cache
 
 """
@@ -58,7 +60,7 @@ def csvify_activities(files):
 
     :param files: list of files to be converted to a single csv file
 
-    :param output: path to the output file    
+    :param output: path to the output file
     """
     def to_dict(filepath):
         with githubarchive(filepath) as data:
@@ -85,4 +87,18 @@ def write_csv(outputfile, data, fieldnames):
         for d in data:
             writer.writerow(d)
     return outputfile
+
+
+def count_per_group(data, groupby):
+    """An abstraction to run groupby on a pandas DataFrame and return
+    the size of each resulting group
+    """
+    return data.groupby(groupby).apply(lambda g: str(len(g)))
+
+
+@cache
+def activity_types(csvfile):
+    activities = pd.read_csv(csvfile)
+    series = count_per_group(activities, 'activity_type')
+    return series.to_dict()
 
