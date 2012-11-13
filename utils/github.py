@@ -1,3 +1,5 @@
+import os
+
 import urllib2
 from urllib import urlencode
 import pprint
@@ -49,6 +51,13 @@ def get_forks(user):
 
 def get_self_commits(repo, user):
     return commits(repo, user, {'author': user})
+
+
+def language_colors():
+    jsonfile = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static', 'colors.json')
+    with open(jsonfile) as f:
+        colors = json.load(f)
+    return colors
 
 
 if __name__ == '__main__':

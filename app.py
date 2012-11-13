@@ -1,7 +1,9 @@
+import os
+
 from flask import Flask, render_template, request, Response
 
 from utils.caching import get_cached_data
-from githubuser import user_forks
+from githubuser import user_forks, primary_languages
 from githubarchive import languages, available_archives
 
 
@@ -9,6 +11,8 @@ DEBUG = True
 
 app = Flask(__name__)
 app.config.from_object(__name__)
+
+basedir=os.path.dirname(os.path.abspath(__file__))
 
 
 @app.route('/')
@@ -48,6 +52,22 @@ def github_forks():
     template = 'github_user_forks.html'
     if username not in [None, '']:
         jsonfile = user_forks(username)
+        return render_template(template,
+                               data=True,
+                               username=username,
+                               jsonfile=jsonfile)
+    else:
+        return render_template(template, data=False)
+
+
+@app.route('/github/user/primary-languages')
+def github_primary_languages():
+    """Primary languages of users
+    """
+    username = request.args.get('username')
+    template = 'github_user_primary_langs.html'
+    if username not in [None, '']:
+        jsonfile = primary_languages(username)
         return render_template(template,
                                data=True,
                                username=username,

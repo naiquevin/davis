@@ -1,24 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="github-primary-langs">
+<div id="github-languages">
   {% include "_gh_user_form.html" %}
   <br/>
   {% if data %}
-    <h5>Primary languages in repos of {{ username }}</h5>
-    <div class="graph"></div>
+    <h5>Primary languages found in the repos of a {{ username }}</h5>
+    <div class="graph" data-jsonsrc="{{ jsonfile }}"></div>
   {% endif %}
 </div>
 {% endblock %}
 
-{% block extrajs %}
-<script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
-<script type="text/javascript">
-  {% if data %}
-    Davis.github.forks("#github-primary-langs .graph", {{ json_languages|safe }});
-  {% endif %}
-</script>
-{% endblock %}
-
-
+{% if data %}
+  {% block extrajs %}
+    <script type="text/javascript" src="{{ url_for('static', filename='d3utils/barChart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='github_colors.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='primary_languages.js') }}"></script>
+  {% endblock %}
+{% endif %}
 
