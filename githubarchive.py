@@ -47,14 +47,7 @@ def available_archives():
     return [os.path.basename(p) for p in glob.glob('githubarchives/*.json.gz')]
 
 
-def download_archives_for_day(date):
-    """Download archives for that happened in the span of 24 hours of
-    the given date
-    """
-    pass
-
-
-def csvify_activities(files):
+def csvify_activities(files, output):
     """Convert the githubarchive activities data from json into
     csv. Will return the path to the csv file
 
@@ -74,7 +67,7 @@ def csvify_activities(files):
 
     data = reduce(lambda (x, y): x + y, [to_dict(f) for f in files])
     fieldnames = ('actor', 'actor_location', 'activity_time', 'activity_type')
-    return write_csv('githubarchives/activities.csv', data, fieldnames)
+    return write_csv(output, data, fieldnames)
 
 
 def write_csv(outputfile, data, fieldnames):
