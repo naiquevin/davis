@@ -27,7 +27,7 @@
         innerRadius = outerRadius * .6,
         donut = d3.layout.pie(),
         arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-        
+
         var vis = d3.select(selector)
             .append("svg")
             .data([values])
