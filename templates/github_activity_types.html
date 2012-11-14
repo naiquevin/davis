@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div id="github-activity-types">
+  <div id="github-activity-types" class="content">
     {% if data %}
       <h5>Various types of Github activity</h5>
       <div class="graph" data-jsonsrc={{ jsonfile }}></div>
