@@ -9,7 +9,8 @@
         values = d3.values(jsondata);
         d3utils.pieChart(selector, values, keys, {
             pieWidth: 450,
-            pieHeight: 450
+            pieHeight: 450,
+            legend: d3utils.legend
         });
     });
 

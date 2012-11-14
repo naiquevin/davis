@@ -12,6 +12,7 @@
 {% if data %}
   {% block extrajs %}
     <script type="text/javascript" src="{{ url_for('static', filename='d3utils/pieChart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='d3utils/legend.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='activity_types.js') }}"></script>
   {% endblock %}
 {% endif %}

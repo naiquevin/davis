@@ -16,7 +16,8 @@
             colors: new Colors,
             textLabel: function (d, i) {
                 return d.value;
-            }
+            },
+            legend: false
         };
         options = _.extend(_default, options || {});
 
@@ -49,6 +50,10 @@
             .attr("text-anchor", "middle")
             .attr("display", function(d) { return d.value > .15 ? null : "none"; })
             .text(options.textLabel);
+
+        if (options.legend) {
+            options.legend(keys, values, options.colors);
+        }
     };
 
 }) (d3, d3utils);
