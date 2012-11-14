@@ -1,16 +1,19 @@
 (function (d3, d3utils, undefined) {
     "use strict";
 
-    d3utils.pieChart = function (selector, values, keys, options) {
-        // this may or may not be used
-        var color = d3.scale.category20();
+    var Colors = function () {
+        this.colors = d3.scale.category20();
+        var that = this;
+        this.fill = function (d, i) {
+            return that.colors(i);
+        }
+    };
 
+    d3utils.pieChart = function (selector, values, keys, options) {
         var _default = {
             pieWidth: 400,
             pieHeight: 400,
-            colorFill: function (d, i) {
-                return color(i);
-            },
+            colors: new Colors,
             textLabel: function (d, i) {
                 return d.value;
             }
@@ -37,7 +40,7 @@
             .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
 
         arcs.append("path")
-            .attr("fill", options.colorFill)
+            .attr("fill", options.colors.fill)
             .attr("d", arc);
 
         arcs.append("text")
