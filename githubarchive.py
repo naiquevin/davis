@@ -16,10 +16,18 @@ Analyzing data obtained from Github archive <http://githubarchive.org>
 
 @contextmanager
 def githubarchive(archive):
+
+    def json_loads(line):
+        try:
+            return json.loads(line)
+        except UnicodeDecodeError:
+            line = line.decode('utf-8', errors='replace')
+            return json.loads(line)
+
     f = gzip.open(archive)
     lines = f.readlines()
     lines = (line.rstrip('\n') for line in lines)
-    data = (json.loads(line) for line in lines)
+    data = (json_loads(line) for line in lines)
     yield data
     f.close()
 
@@ -65,7 +73,7 @@ def csvify_activities(files, output):
                 'activity_time': data['created_at'],
                 'activity_type': data['type']}
 
-    data = reduce(lambda (x, y): x + y, [to_dict(f) for f in files])
+    data = reduce(lambda x, y: x + y, [to_dict(f) for f in files])
     fieldnames = ('actor', 'actor_location', 'activity_time', 'activity_type')
     return write_csv(output, data, fieldnames)
 
