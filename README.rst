@@ -1,7 +1,7 @@
 Davis
 =====
 
-Amateur experiments in Data analysis and Visualizations.
+Amateur experiments in **D**ata **A**nalysis and **VIS**ualizations.
 
 Actually an excuse to learn a thing or two about data analysis and to
 play around with Pandas_ and d3js_.
