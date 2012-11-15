@@ -42,3 +42,9 @@ ul.legend li div {
     display: inline-block;
     margin-right: 10px;
 }
+
+ul.legend li span {
+    color: #666;
+    font-size: 11px;
+    margin-left: 5px;
+}
