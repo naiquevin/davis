@@ -2,22 +2,13 @@
 
 {% block content %}
   <div id="github-languages" class="content">
-  <form method="GET" action".">
-    <legend>Github activity language graph</legend> 
-    <select name="archive">
-      <option value="">Select an archive</option>
-      {% for a in archives %}
-        <option value="{{ a }}" {% if a == archive %}selected{% endif %}>{{ a }}</option>
-      {% endfor %}
-    </select><br/>
-    <button class="btn" type="submit">Load archive</button>
-  </form> 
-  <br/>
-  {% if data %}
-    <h5>Primary languages for which there was an activity on {{ archive }}</h5>
-    <div class="graph" data-jsonsrc={{ jsonfile }}></div>
-  {% endif %}
-</div>
+    {% include "_gh_archive_form.html" %}
+    <br/>
+    {% if data %}
+      <h5>Primary languages for which there was an activity on {{ archive }}</h5>
+      <div class="graph" data-jsonsrc={{ jsonfile }}></div>
+    {% endif %}
+  </div>
 {% endblock content %}
 
 {% if data %}

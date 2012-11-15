@@ -103,3 +103,7 @@ def activity_types(csvfile):
     series = count_per_group(activities, 'activity_type')
     return series.to_dict()
 
+
+def available_activity_csv():
+    return [os.path.basename(p) for p in glob.glob('githubarchives/activities-*.csv')]
+

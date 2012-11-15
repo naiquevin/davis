@@ -1,0 +1,10 @@
+<form method="GET" action".">
+  <legend>Github activity language graph</legend>
+  <select name="archive">
+    <option value="">Select an archive</option>
+    {% for a in archives %}
+    <option value="{{ a }}" {% if a == archive %}selected{% endif %}>{{ a }}</option>
+    {% endfor %}
+  </select><br/>
+  <button class="btn" type="submit">Load archive</button>
+</form>
