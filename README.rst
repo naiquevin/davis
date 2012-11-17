@@ -23,7 +23,7 @@ Downloading some data
 ---------------------
 
 To be able to run the examples, you will need to download and prepare
-some data first. From now, just download a day's activity from
+some data first. For now, just download a day's activity from
 `githubarchive.org`_ as follows::
 
   $ cd githubarchives
