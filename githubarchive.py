@@ -70,8 +70,8 @@ def csvify_activities(files, output):
     def select_fields(data):
         return {'actor': data['actor'],
                 'actor_location': data['actor_attributes'].get('location', '-').encode('utf-8', errors='ignore'),
-                'activity_time': data['created_at'],
-                'activity_type': data['type']}
+                'activity_type': data['type'],
+                'activity_time': data['created_at']}
 
     data = reduce(lambda x, y: x + y, [to_dict(f) for f in files])
     fieldnames = ('actor', 'actor_location', 'activity_time', 'activity_type')
@@ -90,11 +90,14 @@ def write_csv(outputfile, data, fieldnames):
     return outputfile
 
 
+groupsize = lambda g: str(len(g))
+
+
 def count_per_group(data, groupby):
     """An abstraction to run groupby on a pandas DataFrame and return
     the size of each resulting group
     """
-    return data.groupby(groupby).apply(lambda g: str(len(g)))
+    return data.groupby(groupby).apply(groupsize)
 
 
 @cache
@@ -106,4 +109,11 @@ def activity_types(csvfile):
 
 def available_activity_csv():
     return [os.path.basename(p) for p in glob.glob('githubarchives/activities-*.csv')]
+
+
+@cache
+def timeseries_activities(csvfile):
+    data = pd.read_csv(csvfile)
+    data['hour'] = data['activity_time'].map(lambda x: x.split('T')[1].split(':')[0])
+    return data.groupby('hour').apply(groupsize).to_dict()
 

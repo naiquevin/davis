@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, Response
 from utils.caching import get_cached_data
 from githubuser import user_forks, primary_languages
 from githubarchive import languages, available_archives, activity_types,\
-    available_activity_csv
+    available_activity_csv, timeseries_activities
 
 
 DEBUG = True
@@ -118,7 +118,26 @@ def github_activity_types():
                                data=False)
 
 
+@app.route('/github/activity/timeseries')
+def github_activity_timeseries():
+    """Timeseries visualizations of Github activity in a day
+    """
+    archive = request.args.get('archive')
+    template = 'github_activity_timeseries.html'
+    archives = available_activity_csv()
+    if archive not in [None, '']:
+        archive_dataset = 'githubarchives/%s' % archive
+        jsonfile = timeseries_activities(archive_dataset)
+        return render_template(template,
+                               data=True,
+                               jsonfile=jsonfile,
+                               archives=archives)
+    else:
+        return render_template(template,
+                               archives=archives,
+                               data=False)
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
-

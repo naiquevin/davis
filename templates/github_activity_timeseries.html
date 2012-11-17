@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div id="github-activity-timeseries" class="content">
+    {% include "_gh_archive_form.html" %}
+    <br/>
+    {% if data %}
+      <h5>Time series graph of daily github activity</h5>
+      <div class="graph" data-jsonsrc={{ jsonfile }}></div>
+    {% endif %}
+  </div>
+{% endblock content %}
+
+{% if data %}
+  {% block extrajs %}
+    <script type="text/javascript" src="{{ url_for('static', filename='d3utils/barChart.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='activity_timeseries.js') }}"></script>
+  {% endblock %}
+{% endif %}
