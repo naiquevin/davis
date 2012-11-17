@@ -22,13 +22,14 @@ python based dependencies ::
 Downloading some data
 ---------------------
 
-Before running to examples, you will need to download and prepare some
-data. From now, just download a day's activity from `githubarchive.org`_::
+To be able to run the examples, you will need to download and prepare
+some data first. From now, just download a day's activity from
+`githubarchive.org`_ as follows::
 
   $ cd githubarchives
   $ wget http://data.githubarchive.org/2012-11-05-{0..23}.json.gz
 
-Then convert the json files into a single csv files as follows::
+Next, convert the json files into a single csv files as follows::
 
   (davisenv)$ cd ../
   (davisenv)$ python
@@ -41,12 +42,15 @@ Then convert the json files into a single csv files as follows::
 Running the examples in browser.
 --------------------------------
 
-This is a webapp and can be run in browser. It uses the Flask_ web framework
-(previous commands must have taken care of installing it)::
+All examples are packaged as a webapp using the Flask_ web framework
+and therefore can be run the browser by running the development server
+locally. Assuming that Flask would have already been installed from the 
+requirements.txt file, you can start the dev server as follows::
 
   (davisenv)$ python app.py
 
-Now open http://0.0.0.0:5000 in your browser.
+Now open http://127.0.0.1:5000 in your browser.
+
 
 .. _Pandas: http://pandas.pydata.org/
 .. _d3js: http://d3js.org/
