@@ -5,7 +5,6 @@
     {% include "_gh_archive_form.html" %}
     <br/>
     {% if data %}
-      <h5>Time series graph of daily github activity</h5>
       <div class="graph" data-jsonsrc={{ jsonfile }}></div>
     {% endif %}
   </div>

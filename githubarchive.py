@@ -4,7 +4,7 @@ import gzip
 import json
 import csv
 from contextlib import contextmanager
-from collections import Counter
+from collections import Counter, defaultdict
 
 import pandas as pd
 
@@ -115,5 +115,11 @@ def available_activity_csv():
 def timeseries_activities(csvfile):
     data = pd.read_csv(csvfile)
     data['hour'] = data['activity_time'].map(lambda x: x.split('T')[1].split(':')[0])
-    return data.groupby('hour').apply(groupsize).to_dict()
+    timeseries = defaultdict(lambda: defaultdict(dict))
+    timeseries['all'] = data.groupby('hour').apply(groupsize).to_dict()
+    hr_type_series = data.groupby(['hour', 'activity_type']).apply(groupsize).to_dict()
+    for indices, value in hr_type_series.iteritems():
+        hr, atype = indices
+        timeseries[atype][hr] = value
+    return timeseries
 
